@@ -1,72 +1,49 @@
 using UnityEngine;
-public class inimigo : MonoBehaviour
+
+public class Inimigo : MonoBehaviour
 {
-    [Header("Pontos de Patrulha")]
-    public Transform pontoA;
-    public Transform pontoB;
-    public float velocidade = 2f;
+    [Header("Configurações de Vida")]
+    public int vidaMaxima = 100;
+    private int vidaAtual;
 
-    [Header("Ataque")]
-    public Transform jogador;
-    public float distanciaAtaque = 1.2f;
-    public float tempoEntreAtaques = 1.5f;
-    public int dano = 10;
-
-    private Transform alvoAtual;
-    private float proximoAtaque;
+    [Header("Configurações de Ataque")]
+    public int danoAoJogador = 15;
 
     void Start()
     {
-        alvoAtual = pontoB; // Começa indo em direção ao Ponto B
+        vidaAtual = vidaMaxima;
     }
 
-    void Update()
+    // Método chamado por outros scripts (ex: a bala) para causar dano ao inimigo
+    public void ReceberDano(int quantidadeDano)
     {
-        if (jogador == null) return;
+        vidaAtual -= quantidadeDano;
+        Debug.Log("Inimigo recebeu " + quantidadeDano + " de dano. Vida restante: " + vidaAtual);
 
-        float distanciaDoJogador = Vector2.Distance(transform.position, jogador.position);
-
-        // Se o jogador estiver perto, ataca. Se não, patrulha.
-        if (distanciaDoJogador <= distanciaAtaque)
+        if (vidaAtual <= 0)
         {
-            Atacar();
-        }
-        else
-        {
-            Patrulhar();
+            Morrer();
         }
     }
 
-    void Patrulhar()
+    void Morrer()
     {
-        // Move em direção ao ponto atual
-        transform.position = Vector2.MoveTowards(transform.position, alvoAtual.position, velocidade * Time.deltaTime);
-
-        // Troca de ponto ao chegar perto
-        if (Vector2.Distance(transform.position, alvoAtual.position) < 0.1f)
-        {
-            alvoAtual = (alvoAtual == pontoA) ? pontoB : pontoA;
-            Virar();
-        }
+        // Adicione aqui efeitos de morte, animação, drop de itens, etc.
+        Destroy(gameObject);
     }
 
-    void Atacar()
+    // Causa dano ao Jogador assim que o inimigo encosta nele
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (Time.time >= proximoAtaque)
+        if (collision.CompareTag("Player"))
         {
-            proximoAtaque = Time.time + tempoEntreAtaques;
-            Debug.Log("Inimigo atacou! Dano: " + dano);
-
-            // Se o seu jogador tiver um script de vida, chame aqui:
-            // jogador.GetComponent<VidaJogador>()?.ReceberDano(dano);
+            // Tenta obter o componente de vida do jogador (ajuste "Jogador" para o nome do seu script de vida)
+            // CORRETO:
+            Jogador jogador = collision.GetComponent<Jogador>();
+            if (jogador != null)
+            {
+                jogador.ReceberDano(danoAoJogador);
+            }
         }
-    }
-
-    void Virar()
-    {
-        // Inverte o lado do sprite (flip horizontal)
-        Vector3 escala = transform.localScale;
-        escala.x *= -1;
-        transform.localScale = escala;
     }
 }
