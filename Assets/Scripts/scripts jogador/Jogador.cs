@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Jogador : MonoBehaviour
 {
@@ -62,5 +63,9 @@ public class Jogador : MonoBehaviour
         // Exemplo: reinicia a cena atual ou destrói o jogador
         // UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
         Destroy(gameObject);
+        {
+            // Carrega a cena de Game Over
+            SceneManager.LoadScene(2);
+        }
     }
 }

@@ -6,8 +6,7 @@ public class Inimigo : MonoBehaviour
     public int vidaMaxima = 100;
     private int vidaAtual;
 
-    [Header("Configurações de Ataque")]
-    public int danoAoJogador = 15;
+    
 
     void Start()
     {
@@ -32,18 +31,5 @@ public class Inimigo : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // Causa dano ao Jogador assim que o inimigo encosta nele
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            // Tenta obter o componente de vida do jogador (ajuste "Jogador" para o nome do seu script de vida)
-            // CORRETO:
-            Jogador jogador = collision.GetComponent<Jogador>();
-            if (jogador != null)
-            {
-                jogador.ReceberDano(danoAoJogador);
-            }
-        }
+   
     }
-}
