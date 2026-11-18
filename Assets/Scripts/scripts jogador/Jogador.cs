@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Jogador : MonoBehaviour
@@ -7,6 +8,9 @@ public class Jogador : MonoBehaviour
     public int vidaMaxima = 100;
     private int vidaAtual;
 
+    [Header("UI")]
+    public Slider barraDeVida;
+
     [Header("Estado")]
     public bool estaInvencivel = false;
     public float tempoInvencibilidade = 1f;
@@ -14,15 +18,22 @@ public class Jogador : MonoBehaviour
     void Start()
     {
         vidaAtual = vidaMaxima;
+
+        if (barraDeVida != null)
+        {
+            barraDeVida.maxValue = vidaMaxima;
+            barraDeVida.value = vidaAtual;
+        }
     }
 
-    // Método chamado pelo script do Inimigo ao colidir com o jogador
     public void ReceberDano(int quantidadeDano)
     {
-        // Se estiver num período de invencibilidade após um golpe, ignora o dano
         if (estaInvencivel) return;
 
         vidaAtual -= quantidadeDano;
+        if (vidaAtual < 0) vidaAtual = 0;
+
+        AtualizarBarra();
         Debug.Log("Jogador recebeu " + quantidadeDano + " de dano. Vida restante: " + vidaAtual);
 
         if (vidaAtual <= 0)
@@ -31,7 +42,6 @@ public class Jogador : MonoBehaviour
         }
         else
         {
-            // Ativa um pequeno tempo de invencibilidade para não tomar dano em todos os frames
             StartCoroutine(AtivarInvencibilidade());
         }
     }
@@ -40,13 +50,21 @@ public class Jogador : MonoBehaviour
     {
         vidaAtual += quantidadeCura;
 
-        // Impede que a vida ultrapasse o valor máximo
         if (vidaAtual > vidaMaxima)
         {
             vidaAtual = vidaMaxima;
         }
 
+        AtualizarBarra();
         Debug.Log("Jogador curou " + quantidadeCura + ". Vida atual: " + vidaAtual);
+    }
+
+    void AtualizarBarra()
+    {
+        if (barraDeVida != null)
+        {
+            barraDeVida.value = vidaAtual;
+        }
     }
 
     private System.Collections.IEnumerator AtivarInvencibilidade()
@@ -59,13 +77,6 @@ public class Jogador : MonoBehaviour
     void Morrer()
     {
         Debug.Log("O jogador morreu!");
-
-        // Exemplo: reinicia a cena atual ou destrói o jogador
-        // UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
-        Destroy(gameObject);
-        {
-            // Carrega a cena de Game Over
-            SceneManager.LoadScene(2);
-        }
+        SceneManager.LoadScene(2); // Cena de Game Over
     }
 }
