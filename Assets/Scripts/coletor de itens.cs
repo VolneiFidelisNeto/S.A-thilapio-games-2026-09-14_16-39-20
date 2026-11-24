@@ -1,44 +1,37 @@
 using UnityEngine;
 
-public class coletordeitens : MonoBehaviour
+/// <summary>
+/// Coloque na arma que está no CHÃO do cenário.
+/// Precisa de um Collider2D com "Is Trigger" marcado.
+/// </summary>
+[RequireComponent(typeof(Collider2D))]
+public class WeaponPickup : MonoBehaviour
 {
-    [Header("Configurações do Item")]
-    [SerializeField] private KeyCode teclaColeta = KeyCode.E;
+    [Header("Arma")]
+    [Tooltip("Nome único da arma (evita coletar duas vezes a mesma).")]
+    [SerializeField] private string weaponName = "Canhão";
+    [Tooltip("Prefab da arma que será colocado no jogador ao coletar.")]
+    [SerializeField] private GameObject weaponPrefab;
 
-    private bool jogadorPerto = false;
+    [Header("Opcional")]
+    [Tooltip("Objeto de UI/sprite com o texto 'Pressione E' (começa desligado).")]
+    [SerializeField] private GameObject promptObject;
 
-    private void Update()
+    public string WeaponName => weaponName;
+    public GameObject WeaponPrefab => weaponPrefab;
+
+    private void Reset()
     {
-        // Verifica se o jogador está na área e pressionou a tecla escolhida
-        if (jogadorPerto && Input.GetKeyDown(teclaColeta))
-        {
-            Coletar();
-        }
+        GetComponent<Collider2D>().isTrigger = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Start()
     {
-        // Garanta que o seu jogador tenha a Tag "Player" configurada na Unity
-        if (collision.CompareTag("Player"))
-        {
-            jogadorPerto = true;
-        }
+        ShowPrompt(false);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void ShowPrompt(bool show)
     {
-        if (collision.CompareTag("Player"))
-        {
-            jogadorPerto = false;
-        }
-    }
-
-    private void Coletar()
-    {
-        // Adicione aqui a lógica de inventário ou pontuação (ex: Inventario.Adicionar(item))
-        Debug.Log("Item coletado!");
-
-        // Destrói o objeto no mapa após a coleta
-        Destroy(gameObject);
+        if (promptObject != null) promptObject.SetActive(show);
     }
 }
