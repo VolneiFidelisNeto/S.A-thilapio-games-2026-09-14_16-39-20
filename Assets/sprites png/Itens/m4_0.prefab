@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5276586093851880592}
   - component: {fileID: 8396556541487945628}
   - component: {fileID: 8370785045690480500}
+  - component: {fileID: -1665872424136880130}
   m_Layer: 0
   m_Name: m4_0
   m_TagString: Untagged
@@ -154,3 +155,16 @@ MonoBehaviour:
   weaponName: m4
   weaponPrefab: {fileID: 8826804874442423554}
   promptObject: {fileID: 0}
+--- !u!114 &-1665872424136880130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8826804874442423554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c73a3c9983065246820890d27be7b84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  weaponName: M4

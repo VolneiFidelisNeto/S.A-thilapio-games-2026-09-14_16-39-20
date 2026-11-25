@@ -4619,10 +4619,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0cb0402553f0c24f892e8595f65efb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ataque
-  prefabsProjeteis:
-  - {fileID: 6886697456163244496, guid: 414f45c04a3d8854682a22e858ef2177, type: 3}
-  velocidadesProjeteis: []
-  pontoDeDisparo: {fileID: 0}
+  projetilPrefab: {fileID: 0}
+  pontoDeTiro: {fileID: 0}
+  velocidadeProjetil: 12
+  tempoDeVidaProjetil: 3
+  cadenciaTiro: 0.3
+  tiroAutomatico: 0
+  girarParaOMouse: 1
 --- !u!114 &1229780498
 MonoBehaviour:
   m_ObjectHideFlags: 0
