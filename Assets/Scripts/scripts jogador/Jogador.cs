@@ -2,11 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Jogador : MonoBehaviour
+public class Jogador : MonoBehaviour , ICuravel
+
 {
-    [Header("Configurações de Vida")]
-    public int vidaMaxima = 100;
-    private int vidaAtual;
+    [SerializeField] private float vidaMaxima = 100f;
+    private float vidaAtual;
+
+  
 
     [Header("UI")]
     public Slider barraDeVida;
@@ -79,4 +81,15 @@ public class Jogador : MonoBehaviour
         Debug.Log("O jogador morreu!");
         SceneManager.LoadScene(2); // Cena de Game Over
     }
+    private void Awake() => vidaAtual = vidaMaxima;
+
+    public bool Curar(float quantidade)
+    {
+        if (vidaAtual >= vidaMaxima) return false; // vida cheia: não gasta o kit
+        vidaAtual = Mathf.Min(vidaAtual + quantidade, vidaMaxima);
+        // atualize a barra de vida aqui
+        return true;
+    }
+
+  
 }

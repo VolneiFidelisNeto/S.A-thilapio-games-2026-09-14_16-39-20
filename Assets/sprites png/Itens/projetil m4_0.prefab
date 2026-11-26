@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9253a35294d3f524a923251810e28cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::fogo
-  dano: 20
+  dano: 30
 --- !u!50 &7782587488866284703
 Rigidbody2D:
   serializedVersion: 5
